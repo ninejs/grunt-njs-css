@@ -23,10 +23,7 @@ module.exports = function(grunt)
 			if (/\.less$/.test(file)) {
 				var newFile = file.substr(0, file.length -5) + '.' + extension;
 				var data = grunt.file.read(file);
-				var Parser = less.Parser;
-				var parserObj = new Parser({ paths: [path.resolve(path.dirname(file))] });
-
-				parserObj.parse(data, function(err, tree) {
+				less.parse(data, { paths: [path.resolve(path.dirname(file))] }, function(err, tree) {
 					if (err) {
 						console.error(err);
 						done(false);
