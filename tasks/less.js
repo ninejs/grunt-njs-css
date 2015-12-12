@@ -23,26 +23,18 @@ module.exports = function(grunt)
 			if (/\.less$/.test(file)) {
 				var newFile = file.substr(0, file.length -5) + '.' + extension;
 				var data = grunt.file.read(file);
-				less.parse(data, { paths: [path.resolve(path.dirname(file))] }, function(err, tree) {
+				less.render(data, { paths: [path.resolve(path.dirname(file))] }, function(err, tree) {
 					if (err) {
 						console.error(err);
 						done(false);
 					}
 					else {
-						var css = tree.toCSS({});/*, function(err, css) {
-							if (err) {
-								console.error(err);
-								done(false);
-							}
-							else {
-						*/
+						var css = tree.css;
 						grunt.file.write(newFile, fileHeader + '\n' + css);
 						length -= 1;
 						if (!length) {
 							done();
 						}
-//							}
-//						});
 					}
 				});
 			}
